@@ -32,7 +32,41 @@ When("a requisição for enviada para a API de buscar todos usuários", () => {
 
 Then("a resposta deve conter o total de usuários cadastrados no sistema", () => {
     cy.get("@response").then((response) => {
-        expect(response.body.quantidade).to.be.greaterThan(0)
-        expect(response.body.usuarios.length).to.be.greaterThan(0)
+        expect(response.body.quantidade).to.be.greaterThan(0);
+        expect(response.body.usuarios.length).to.be.greaterThan(0);
+    })
+})
+
+Given("que tenha um usuário cadastrado no sistema", () => {
+    cy.fixture("Usuario/criarUsuario").then((dados) => {
+
+        Payload = { ...dados };
+
+        const firstName = faker.person.firstName();
+        const email = faker.internet.email();
+        const password = faker.internet.password();
+
+        Payload = { ...dados };
+        Payload.nome = firstName;
+        Payload.email = email;
+        Payload.password = password;
+
+        Requests.criarUsuario(Payload).then((response) => {
+            Cypress.env("id", response.body._id);
+            cy.log(Cypress.env("id"));
+        })
+    })
+})
+
+When("a requisição for enviada para a API de buscar usuário especifico", () => {
+    Requests.buscarUsuario(Cypress.env("id")).then((response) => {
+        cy.wrap(response).as("response");
+        cy.log(response);
+    })
+})
+
+And("a resposta deve conter os dados do usuário", () => {
+    cy.get("@response").then((response) => {
+        expect(response.body.nome);
     })
 })

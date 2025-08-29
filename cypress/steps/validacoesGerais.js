@@ -4,7 +4,7 @@ Then("deve retornar o status HTTP {string}", (status) => {
     })
 })
 
-Then("deve retornar o status {string} com a mensagem", (status, mensagem) => {
+Then("deve retornar o status {string} com a mensagem {string}", (status, mensagem) => {
     cy.get("@response").then((response) => {
         expect(response.status).to.be.equal(parseInt(status));
 

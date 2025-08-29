@@ -2,7 +2,7 @@ const buscarUsuarioRequest = {
     buscarUsuario(id) {
         return cy.request({
             method: "GET",
-            url: cypress.env("url") + "usuarios/" + id,
+            url: Cypress.env("baseUrl")+ "usuarios/" + id,
             failOnStatusCode: false
         })
     }

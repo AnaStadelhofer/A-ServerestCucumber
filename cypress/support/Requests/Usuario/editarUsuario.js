@@ -2,7 +2,7 @@ const editarUsuarioRequest = {
     editarUsuario(payload, id) {
         return cy.request({
             method: "PUT",
-            url: cypress.env("url") + "usuarios/" + id,
+            url: Cypress.env("baseUrl") + "usuarios/" + id,
             failOnStatusCode: false,
             body: payload
         })
